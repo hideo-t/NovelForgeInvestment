@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovelForge | Local AI Novel Generation Pipeline – Zero API Cost, IP Secure</title>
+<meta name="description" content="End-to-end local AI novel generation pipeline. Text, illustration, HTML build, and deployment – all on your own GPU. Zero API cost. Enterprise-ready IP protection.">
+<link rel="canonical" href="https://hideo-t.github.io/NovelForgeInvestment/en/">
+<link rel="alternate" hreflang="ja" href="https://hideo-t.github.io/NovelForgeInvestment/">
+<link rel="alternate" hreflang="en" href="https://hideo-t.github.io/NovelForgeInvestment/en/">
+<link rel="alternate" hreflang="x-default" href="https://hideo-t.github.io/NovelForgeInvestment/">
+<meta property="og:title" content="NovelForge | Local AI Novel Generation Pipeline – Zero API Cost, IP Secure">
+<meta property="og:description" content="End-to-end local AI novel generation pipeline. Text, illustration, HTML build, and deployment – all on your own GPU. Zero API cost. Enterprise-ready IP protection.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hideo-t.github.io/NovelForgeInvestment/en/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NovelForge | Local AI Novel Generation Pipeline">
+<meta name="twitter:description" content="On-premise AI pipeline for IP-safe illustrated novel generation. Character Consistency Engine. GPU-native. Enterprise-ready.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#fafaf9;
+  --bg2:#f4f3f0;
+  --bg-dark:#0b0b12;
+  --bg-dark2:#10101a;
+  --surface:#fff;
+  --navy:#111827;
+  --navy2:#1f2937;
+  --charcoal:#374151;
+  --gold:#a88a3e;
+  --gold-light:#c9a84c;
+  --gold-pale:rgba(168,138,62,.07);
+  --gold-border:rgba(168,138,62,.18);
+  --green:#166534;
+  --green-pale:rgba(22,101,52,.06);
+  --red:#991b1b;
+  --text:#1a1a1a;
+  --text2:#555;
+  --text3:#999;
+  --border:rgba(0,0,0,.08);
+  --border2:rgba(0,0,0,.04);
+  --display:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.8;overflow-x:hidden}
+::selection{background:var(--navy);color:#fff}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* ═══ NAV ═══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:11px 40px;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(250,250,249,.88);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border2);transition:all .3s;
+}
+nav.scrolled{background:rgba(250,250,249,.97);box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.nav-l{display:flex;align-items:baseline;gap:8px;text-decoration:none}
+.nav-name{font-family:var(--display);font-weight:700;font-size:1.12rem;color:var(--navy);letter-spacing:-.02em}
+.nav-tag{
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;
+  color:var(--gold);font-weight:600;padding:2px 8px;border-radius:3px;
+  border:1px solid var(--gold-border);background:var(--gold-pale);
+}
+.nav-r{display:flex;gap:18px;align-items:center}
+.nav-r a{color:var(--text2);text-decoration:none;font-size:.78rem;font-weight:500;transition:color .3s}
+.nav-r a:hover{color:var(--navy)}
+.nav-cta{
+  padding:8px 20px!important;border-radius:4px;font-weight:600!important;
+  background:var(--navy)!important;color:#fff!important;font-size:.76rem!important;
+  letter-spacing:.04em;transition:all .3s!important;
+}
+.nav-cta:hover{background:var(--navy2)!important}
+.lang-sw{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:4px;font-size:.68rem;font-weight:700;
+  letter-spacing:.04em;text-decoration:none!important;
+  background:rgba(0,0,0,.04);color:rgba(0,0,0,.45);border:1px solid rgba(0,0,0,.06);
+  transition:all .3s;
+}
+.lang-sw:hover{background:rgba(0,0,0,.08);color:#000}
+
+/* ═══ HERO ═══ */
+.hero{padding:150px 40px 100px;max-width:900px;margin:0 auto;position:relative}
+.hero-ey{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.22em;
+  color:var(--gold);font-weight:600;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+  animation:fadeIn .7s ease-out both;
+}
+.hero-ey::before{content:'';width:28px;height:1px;background:var(--gold)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.hero h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2rem,4.5vw,3.2rem);
+  line-height:1.2;letter-spacing:-.02em;color:var(--navy);
+  animation:su .8s ease-out .1s both;
+}
+@keyframes su{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-sub{
+  font-size:1.02rem;color:var(--text2);max-width:620px;
+  margin-top:18px;line-height:1.95;font-weight:300;
+  animation:su .8s ease-out .25s both;
+}
+
+/* Thesis box */
+.thesis{
+  margin-top:32px;padding:24px 28px;border-radius:8px;
+  background:var(--gold-pale);border:1px solid var(--gold-border);
+  animation:su .8s ease-out .4s both;
+}
+.thesis-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;color:var(--gold);font-weight:600;margin-bottom:8px}
+.thesis p{font-family:var(--display);font-size:1.1rem;line-height:1.75;color:var(--navy);font-weight:600;font-style:italic}
+
+.hero-ctas{display:flex;gap:12px;margin-top:28px;animation:su .8s ease-out .55s both}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;border-radius:4px;
+  font-family:var(--sans);font-size:.84rem;font-weight:600;
+  text-decoration:none;cursor:pointer;border:none;transition:all .3s;letter-spacing:.02em;
+}
+.btn-dark{background:var(--navy);color:#fff;box-shadow:0 1px 8px rgba(0,0,0,.1)}
+.btn-dark:hover{background:var(--navy2);transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.btn-out{background:transparent;color:var(--navy);border:1px solid var(--border)}
+.btn-out:hover{background:var(--bg2);border-color:rgba(0,0,0,.12)}
+
+/* tags */
+.kw-bar{
+  display:flex;gap:6px;flex-wrap:wrap;margin-top:24px;
+  animation:su .8s ease-out .65s both;
+}
+.kw{
+  font-family:var(--mono);font-size:.62rem;font-weight:500;
+  padding:3px 10px;border-radius:3px;letter-spacing:.04em;
+  background:rgba(0,0,0,.03);border:1px solid var(--border2);color:var(--text2);
+}
+
+/* ═══ SECTIONS ═══ */
+section{padding:80px 40px}
+.container{max-width:900px;margin:0 auto}
+.label{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;color:var(--gold);font-weight:600;margin-bottom:8px}
+.stitle{font-family:var(--display);font-weight:700;font-size:clamp(1.35rem,2.5vw,1.85rem);line-height:1.3;color:var(--navy);margin-bottom:12px}
+.sdesc{color:var(--text2);max-width:540px;font-size:.92rem;margin-bottom:36px;line-height:1.9;font-weight:300}
+
+/* ═══ PROBLEM ═══ */
+.problem{background:var(--bg-dark);color:#fff;padding:80px 40px}
+.problem .label{color:var(--gold-light)}
+.problem .stitle{color:#fff}
+.problem .sdesc{color:rgba(255,255,255,.5)}
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.prob-card{
+  padding:26px 22px;border-radius:8px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+}
+.prob-num{font-family:var(--mono);font-size:.62rem;color:var(--gold-light);letter-spacing:.1em;font-weight:600;margin-bottom:8px}
+.prob-t{font-weight:600;font-size:.92rem;margin-bottom:6px}
+.prob-d{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.7}
+.prob-evidence{
+  margin-top:10px;padding:8px 12px;border-radius:4px;
+  background:rgba(255,255,255,.03);font-size:.74rem;
+  color:rgba(255,255,255,.4);font-style:italic;line-height:1.6;
+  border-left:2px solid rgba(201,168,76,.3);
+}
+
+/* ═══ SOLUTION ═══ */
+.solution{border-top:1px solid var(--border)}
+.sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.sol-statement{
+  font-family:var(--display);font-size:1.08rem;line-height:1.8;
+  color:var(--navy);margin-bottom:20px;font-weight:600;
+  padding-left:16px;border-left:3px solid var(--gold);
+}
+.sol-checks{list-style:none;display:flex;flex-direction:column;gap:10px}
+.sol-check{display:flex;gap:10px;font-size:.88rem;line-height:1.7}
+.sol-check .ic{color:var(--green);flex-shrink:0;margin-top:4px;font-size:.82rem}
+.sol-check strong{color:var(--navy);font-weight:600}
+.sol-check span{color:var(--text2)}
+
+.sol-arch{
+  padding:28px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+  box-shadow:0 2px 8px rgba(0,0,0,.03);
+}
+.sol-arch h4{font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;color:var(--gold);font-weight:600;margin-bottom:16px}
+.arch-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 0;border-bottom:1px solid var(--border2);font-size:.84rem;
+}
+.arch-row:last-child{border:none}
+.arch-k{color:var(--text2)}
+.arch-v{font-family:var(--mono);font-weight:600;color:var(--navy);font-size:.82rem}
+
+/* ═══ WHY WE WIN ═══ */
+.moat{background:var(--bg2);border-top:1px solid var(--border)}
+.moat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.moat-card{
+  padding:28px 24px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.moat-num{font-family:var(--mono);font-size:.62rem;color:var(--gold);letter-spacing:.1em;font-weight:600;margin-bottom:8px}
+.moat-t{font-family:var(--display);font-weight:700;font-size:1.02rem;color:var(--navy);margin-bottom:6px}
+.moat-d{font-size:.82rem;color:var(--text2);line-height:1.8}
+
+/* ═══ MARKET ═══ */
+.market{border-top:1px solid var(--border)}
+.mkt-top{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-bottom:36px}
+.tam-card{
+  padding:28px;border-radius:8px;text-align:center;
+  background:var(--gold-pale);border:1px solid var(--gold-border);
+}
+.tam-num{font-family:var(--mono);font-weight:700;font-size:2.4rem;color:var(--gold);margin-bottom:2px}
+.tam-label{font-size:.88rem;color:var(--navy);font-weight:600;margin-bottom:4px}
+.tam-sub{font-size:.78rem;color:var(--text2);line-height:1.5}
+
+.mkt-comps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.mkt-comp{
+  padding:20px 16px;border-radius:8px;text-align:center;
+  background:var(--surface);border:1px solid var(--border);
+}
+.mkt-comp-name{font-weight:600;font-size:.84rem;margin-bottom:4px;color:var(--navy)}
+.mkt-comp-num{font-family:var(--mono);font-weight:700;font-size:1.2rem;color:var(--gold);margin:4px 0}
+.mkt-comp-label{font-size:.68rem;color:var(--text3)}
+
+.mkt-landscape{
+  margin-top:28px;padding:24px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.mkt-landscape h4{font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;color:var(--gold);font-weight:600;margin-bottom:14px}
+.land-row{
+  display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:8px;
+  padding:9px 0;border-bottom:1px solid var(--border2);font-size:.82rem;align-items:center;
+}
+.land-row:last-child{border:none}
+.land-row.head{font-weight:600;color:var(--navy);font-size:.7rem;letter-spacing:.04em;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.land-row .n{font-weight:500;color:var(--navy)}
+.land-row .v{font-family:var(--mono);font-weight:500}
+.land-ours{background:var(--gold-pale);border-radius:4px;padding:9px 8px!important;margin-top:4px;border:1px solid var(--gold-border)}
+.land-ours .n{color:var(--gold)!important;font-weight:700!important}
+.land-ours .v{color:var(--gold)!important}
+
+/* ═══ USE CASES ═══ */
+.usecases{background:var(--bg2);border-top:1px solid var(--border)}
+.uc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.uc-card{
+  padding:26px 22px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.uc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.uc-card:nth-child(1)::before{background:var(--gold)}
+.uc-card:nth-child(2)::before{background:#4a9eff}
+.uc-card:nth-child(3)::before{background:var(--green)}
+.uc-seg{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--text3);font-weight:600;margin-bottom:4px}
+.uc-t{font-family:var(--display);font-weight:700;font-size:1.02rem;color:var(--navy);margin-bottom:6px}
+.uc-d{font-size:.82rem;color:var(--text2);line-height:1.7;margin-bottom:12px}
+.uc-metrics{list-style:none;display:flex;flex-direction:column;gap:5px}
+.uc-met{display:flex;justify-content:space-between;font-size:.78rem;padding:5px 0;border-bottom:1px solid var(--border2)}
+.uc-met:last-child{border:none}
+.uc-met .k{color:var(--text2)}
+.uc-met .v{font-family:var(--mono);font-weight:600;color:var(--navy)}
+
+/* ═══ TRACTION ═══ */
+.traction{border-top:1px solid var(--border)}
+.tract-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tract-card{
+  padding:24px 18px;border-radius:8px;text-align:center;
+  background:var(--surface);border:1px solid var(--border);
+}
+.tract-num{font-family:var(--mono);font-weight:700;font-size:1.5rem;color:var(--navy);margin-bottom:2px}
+.tract-label{font-size:.78rem;color:var(--text2);line-height:1.4}
+
+/* ═══ RISK ═══ */
+.risks{background:var(--bg2);border-top:1px solid var(--border)}
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.risk-card{
+  padding:20px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.risk-t{font-weight:600;font-size:.86rem;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.risk-t::before{content:'⚠';font-size:.72rem}
+.risk-d{font-size:.78rem;color:var(--text2);line-height:1.7}
+.risk-m{font-size:.76rem;color:var(--green);margin-top:4px;font-weight:500}
+
+/* ═══ CTA ═══ */
+.cta{background:var(--bg-dark);color:#fff;text-align:center;padding:100px 40px}
+.cta .label{color:var(--gold-light)}
+.cta h2{font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1.35;margin-bottom:12px}
+.cta .sub{color:rgba(255,255,255,.5);font-size:.92rem;max-width:480px;margin:0 auto 36px;line-height:1.9;font-weight:300}
+.deal-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:780px;margin:0 auto 40px}
+.deal-opt{
+  padding:22px 18px;border-radius:8px;text-align:left;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+}
+.deal-opt-t{font-weight:600;font-size:.88rem;margin-bottom:5px}
+.deal-opt-d{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.7}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.btn-white{background:#fff;color:var(--navy);box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.btn-white:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.btn-wg{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.25)}
+.btn-wg:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.4)}
+.cta-mail{font-size:.82rem;color:rgba(255,255,255,.35);margin-bottom:32px}
+.cta-mail a{color:rgba(255,255,255,.65);text-decoration:none;font-weight:500}
+.cta-mail a:hover{color:#fff;text-decoration:underline}
+.disclaimer{
+  max-width:580px;margin:0 auto;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);
+  font-size:.68rem;color:rgba(255,255,255,.2);line-height:1.7;
+}
+
+footer{padding:20px 40px;text-align:center;font-size:.68rem;color:var(--text3);border-top:1px solid var(--border)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .prob-grid,.moat-grid,.uc-grid{grid-template-columns:1fr}
+  .sol-grid,.mkt-top{grid-template-columns:1fr}
+  .mkt-comps{grid-template-columns:1fr 1fr}
+  .risk-grid{grid-template-columns:1fr}
+  .deal-opts{grid-template-columns:1fr}
+  .tract-grid{grid-template-columns:1fr 1fr}
+  nav{padding:10px 20px}
+}
+@media(max-width:600px){
+  .mkt-comps,.tract-grid{grid-template-columns:1fr}
+  .nav-r a:not(.nav-cta):not(.lang-sw){display:none}
+  .hero-ctas{flex-direction:column}.hero-ctas .btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-l"><span class="nav-name">NovelForge</span><span class="nav-tag">INVESTOR RELATIONS</span></a>
+  <div class="nav-r">
+    <a href="#moat">Why We Win</a>
+    <a href="#market">Market</a>
+    <a href="#usecases">Revenue</a>
+    <a href="https://forms.gle/vxeFuYFUSnSQSH4P9" target="_blank" rel="noopener" class="nav-cta">Schedule a Call</a>
+    <a href="https://hideo-t.github.io/NovelForgeInvestment/" class="lang-sw" title="日本語">JA</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════
+     1. HERO — 3 lines of value
+     ═══════════════════════════ -->
+<section class="hero">
+  <div class="hero-ey">INVESTMENT OPPORTUNITY</div>
+  <h1>The only on-premise AI pipeline<br>that keeps IP safe and characters consistent.</h1>
+  <p class="hero-sub">
+    NovelForge is an end-to-end local AI system that generates illustrated novels — text, images, HTML reader, web publishing — with zero external API calls. The Character Consistency Engine ensures faces match across every chapter. Enterprise-ready. GPU-native. Zero API cost.
+  </p>
+  <div class="thesis">
+    <div class="thesis-label">INVESTMENT THESIS</div>
+    <p>The AI-generated content market has produced $70M ARR companies. But every player relies on cloud APIs — leaking customer IP and breaking character consistency. NovelForge is the only vertically integrated, on-premise pipeline that solves both. This is the infrastructure layer the market is missing.</p>
+  </div>
+  <div class="hero-ctas">
+    <a href="https://forms.gle/vxeFuYFUSnSQSH4P9" target="_blank" rel="noopener" class="btn btn-dark">Schedule a Call →</a>
+    <a href="#problem" class="btn btn-out">Read the Thesis</a>
+  </div>
+  <div class="kw-bar">
+    <span class="kw">Local AI Pipeline</span>
+    <span class="kw">On-Premise AI</span>
+    <span class="kw">Zero API Cost</span>
+    <span class="kw">IP-Safe Generation</span>
+    <span class="kw">Character Consistency Engine</span>
+    <span class="kw">End-to-End Automation</span>
+    <span class="kw">GPU-Native Workflow</span>
+    <span class="kw">Enterprise-Ready</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     2. THE PROBLEM
+     ═══════════════════════════ -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">THE PROBLEM</div>
+      <div class="stitle">Every AI content company has the same three fatal flaws.</div>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-card reveal">
+        <div class="prob-num">FLAW 01</div>
+        <div class="prob-t">IP Leakage by Design</div>
+        <div class="prob-d">Cloud-based AI tools require sending character designs, world-building, and proprietary IP to third-party APIs. Every prompt is a potential training data point for someone else's model.</div>
+        <div class="prob-evidence">Publishers and game studios won't send their crown-jewel IPs to OpenAI's servers. They need an alternative.</div>
+      </div>
+      <div class="prob-card reveal d1">
+        <div class="prob-num">FLAW 02</div>
+        <div class="prob-t">Character Consistency Is Unsolved</div>
+        <div class="prob-d">Generate a 10-chapter novel with any existing tool and the protagonist's face changes every chapter. For IP-driven content, this is a dealbreaker. No current solution guarantees visual consistency at scale.</div>
+        <div class="prob-evidence">HOLYWATER hit $70M ARR but faces criticism for quality inconsistency across AI-generated content.</div>
+      </div>
+      <div class="prob-card reveal d2">
+        <div class="prob-num">FLAW 03</div>
+        <div class="prob-t">No Vertical Integration</div>
+        <div class="prob-d">Today's workflow: ChatGPT for text → Midjourney for images → manual HTML → manual publishing. Four disconnected tools, four failure points, zero automation. The pipeline doesn't exist — until now.</div>
+        <div class="prob-evidence">Content teams spend 70%+ of their time on assembly, not creation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     3. OUR SOLUTION
+     ═══════════════════════════ -->
+<section class="solution" id="solution">
+  <div class="container">
+    <div class="sol-grid">
+      <div class="reveal">
+        <div class="label">OUR SOLUTION</div>
+        <div class="stitle">One YAML config in.<br>Illustrated novel out.</div>
+        <div class="sol-statement">NovelForge is a GPU-native, end-to-end automation pipeline that turns a single YAML configuration file into a complete illustrated novel — published to the web — with zero external API calls.</div>
+        <ul class="sol-checks">
+          <li class="sol-check"><span class="ic">✓</span><span><strong>IP-Safe Generation</strong> — Fully on-premise. No data leaves the network. Ever.</span></li>
+          <li class="sol-check"><span class="ic">✓</span><span><strong>Character Consistency Engine</strong> — YAML-defined SD appearance tags auto-applied to every chapter. Age/attribute inference prevents visual drift.</span></li>
+          <li class="sol-check"><span class="ic">✓</span><span><strong>Long-Form Coherence</strong> — Plot thread tracking, character state management, chapter-summary handoff across 50+ episodes.</span></li>
+          <li class="sol-check"><span class="ic">✓</span><span><strong>Auto Quality Control</strong> — Repetition loop detection, language contamination removal, auto-retry with fallback.</span></li>
+          <li class="sol-check"><span class="ic">✓</span><span><strong>One-Click Sequel</strong> — Feed finished work → LLM summarizes → auto-generates sequel config. Series at scale.</span></li>
+          <li class="sol-check"><span class="ic">✓</span><span><strong>Zero API Cost</strong> — Ollama (local LLM) + Stable Diffusion WebUI. Running cost = electricity only.</span></li>
+        </ul>
+      </div>
+      <div class="sol-arch reveal d2">
+        <h4>TECHNICAL ARCHITECTURE</h4>
+        <div class="arch-row"><span class="arch-k">Total Codebase</span><span class="arch-v">9,774 lines Python</span></div>
+        <div class="arch-row"><span class="arch-k">Core Modules</span><span class="arch-v">9 integrated</span></div>
+        <div class="arch-row"><span class="arch-k">Text Engine</span><span class="arch-v">Ollama (local LLM)</span></div>
+        <div class="arch-row"><span class="arch-k">Image Engine</span><span class="arch-v">Stable Diffusion WebUI</span></div>
+        <div class="arch-row"><span class="arch-k">Memory System</span><span class="arch-v">JSON state tracking</span></div>
+        <div class="arch-row"><span class="arch-k">Quality Control</span><span class="arch-v">Loop + language detection</span></div>
+        <div class="arch-row"><span class="arch-k">Output</span><span class="arch-v">HTML reader + TTS + Git</span></div>
+        <div class="arch-row"><span class="arch-k">External API Calls</span><span class="arch-v" style="color:var(--green)">Zero</span></div>
+        <div class="arch-row"><span class="arch-k">Min. Hardware</span><span class="arch-v">1× RTX 4090 GPU</span></div>
+        <div class="arch-row"><span class="arch-k">Dependencies</span><span class="arch-v">PyYAML, Flask, Rich, Requests</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     4. WHY WE WIN
+     ═══════════════════════════ -->
+<section class="moat" id="moat">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">WHY WE WIN</div>
+      <div class="stitle">Three structural moats that can't be replicated overnight.</div>
+      <div class="sdesc">These aren't features — they're architectural decisions that compound over time.</div>
+    </div>
+    <div class="moat-grid">
+      <div class="moat-card reveal">
+        <div class="moat-num">MOAT 01</div>
+        <div class="moat-t">On-Premise Architecture</div>
+        <div class="moat-d">Every competitor is built on cloud APIs. Retrofitting a SaaS product for on-premise deployment requires a full architectural rewrite. We started local-first. This is a structural advantage, not a feature toggle.</div>
+      </div>
+      <div class="moat-card reveal d1">
+        <div class="moat-num">MOAT 02</div>
+        <div class="moat-t">Character Consistency Engine</div>
+        <div class="moat-d">YAML-defined SD prompt tags + age/attribute inference + auto-application across all chapters. This isn't prompt engineering — it's a pipeline-level system spanning 9,800 lines of integrated code. Deep, not wide.</div>
+      </div>
+      <div class="moat-card reveal d2">
+        <div class="moat-num">MOAT 03</div>
+        <div class="moat-t">Vertical Integration</div>
+        <div class="moat-d">Text generation → quality control → illustration → HTML packaging → Git publishing — one system, one config, one execution. Point solutions (text-only, image-only) can't replicate the integrated value without rebuilding from scratch.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     5. MARKET
+     ═══════════════════════════ -->
+<section class="market" id="market">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">MARKET OPPORTUNITY</div>
+      <div class="stitle">The market has validated demand. The infrastructure hasn't caught up.</div>
+    </div>
+    <div class="mkt-top">
+      <div class="tam-card reveal">
+        <div class="tam-num">$4.5B+</div>
+        <div class="tam-label">TAM: AI Content Generation (2026)</div>
+        <div class="tam-sub">Web novels, light novels, visual novels, novelization, media mix — global addressable market for AI-assisted content creation.</div>
+      </div>
+      <div class="reveal d1" style="display:flex;flex-direction:column;gap:12px">
+        <div class="tam-card" style="padding:20px">
+          <div class="tam-num" style="font-size:1.6rem">$300M+</div>
+          <div class="tam-label" style="font-size:.82rem">SAM: Enterprise IP Expansion</div>
+          <div class="tam-sub">Publishers, game studios, film production — companies with existing IP seeking AI-powered content expansion.</div>
+        </div>
+        <div class="tam-card" style="padding:20px">
+          <div class="tam-num" style="font-size:1.6rem">$80M+</div>
+          <div class="tam-label" style="font-size:.82rem">SOM: JP Enterprise (Year 3)</div>
+          <div class="tam-sub">Japan-first go-to-market targeting 50+ content companies, expanding to APAC and Western markets.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mkt-comps reveal">
+      <div class="mkt-comp"><div class="mkt-comp-name">Inkitt</div><div class="mkt-comp-num">$300M</div><div class="mkt-comp-label">Valuation</div></div>
+      <div class="mkt-comp"><div class="mkt-comp-name">HOLYWATER</div><div class="mkt-comp-num">$70M</div><div class="mkt-comp-label">ARR</div></div>
+      <div class="mkt-comp"><div class="mkt-comp-name">Holoworld AI</div><div class="mkt-comp-num">$90M+</div><div class="mkt-comp-label">Market Cap</div></div>
+      <div class="mkt-comp"><div class="mkt-comp-name">Sudowrite</div><div class="mkt-comp-num">~$3M</div><div class="mkt-comp-label">Est. ARR</div></div>
+    </div>
+
+    <div class="mkt-landscape reveal d2">
+      <h4>COMPETITIVE LANDSCAPE — DIFFERENTIATION</h4>
+      <div class="land-row head"><span>Company</span><span>Scale</span><span>Structural Weakness</span></div>
+      <div class="land-row"><span class="n">HOLYWATER</span><span class="v">$70M ARR</span><span style="font-size:.78rem;color:var(--text2)">Cloud-only. IP leakage. Author backlash.</span></div>
+      <div class="land-row"><span class="n">Inkitt</span><span class="v">$300M val.</span><span style="font-size:.78rem;color:var(--text2)">Cloud-only. Trust erosion with authors.</span></div>
+      <div class="land-row"><span class="n">NovelAI</span><span class="v">Subscription</span><span style="font-size:.78rem;color:var(--text2)">No long-form coherence. No illustration pipeline.</span></div>
+      <div class="land-row"><span class="n">Sudowrite</span><span class="v">~$3M ARR</span><span style="font-size:.78rem;color:var(--text2)">API-dependent. No image generation. No publishing.</span></div>
+      <div class="land-row land-ours">
+        <span class="n">NovelForge</span>
+        <span class="v" style="color:var(--gold)">Pre-revenue</span>
+        <span style="font-size:.78rem;color:var(--gold);font-weight:600">Only on-premise, vertically integrated pipeline.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     6. USE CASES / REVENUE
+     ═══════════════════════════ -->
+<section class="usecases" id="usecases">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">REVENUE MODEL</div>
+      <div class="stitle">Three-layer revenue architecture.</div>
+      <div class="sdesc">High-value enterprise as the anchor, recurring creator subscriptions for scale, education for expansion.</div>
+    </div>
+    <div class="uc-grid">
+      <div class="uc-card reveal">
+        <div class="uc-seg">LAYER 01 — HIGH VALUE</div>
+        <div class="uc-t">Enterprise Deployment</div>
+        <div class="uc-d">On-premise installation + customization for publishers, game studios, and film production companies. IP-safe novelization and spin-off production at scale.</div>
+        <ul class="uc-metrics">
+          <li class="uc-met"><span class="k">Setup Fee</span><span class="v">$30K–$70K</span></li>
+          <li class="uc-met"><span class="k">Monthly Retainer</span><span class="v">$3K–$7K</span></li>
+          <li class="uc-met"><span class="k">Target Customers</span><span class="v">50+ (Japan)</span></li>
+          <li class="uc-met"><span class="k">Expansion</span><span class="v">APAC → Global</span></li>
+        </ul>
+      </div>
+      <div class="uc-card reveal d1">
+        <div class="uc-seg">LAYER 02 — RECURRING</div>
+        <div class="uc-t">Creator SaaS</div>
+        <div class="uc-d">Monthly subscription for indie authors, web novel writers, and doujin creators. Self-hosted, zero API cost, full ownership of output.</div>
+        <ul class="uc-metrics">
+          <li class="uc-met"><span class="k">Price</span><span class="v">$65/mo</span></li>
+          <li class="uc-met"><span class="k">TAM (Japan)</span><span class="v">100K+ creators</span></li>
+          <li class="uc-met"><span class="k">Target MRR (Y1)</span><span class="v">$7K</span></li>
+          <li class="uc-met"><span class="k">Model</span><span class="v">Freemium → Pro</span></li>
+        </ul>
+      </div>
+      <div class="uc-card reveal d2">
+        <div class="uc-seg">LAYER 03 — EXPANSION</div>
+        <div class="uc-t">Education & Training</div>
+        <div class="uc-d">AI literacy workshops for schools, governments, and corporate training. "Write with AI" hands-on programs. Instructor dispatch + Train the Trainer.</div>
+        <ul class="uc-metrics">
+          <li class="uc-met"><span class="k">Per Session</span><span class="v">$700–$3,500</span></li>
+          <li class="uc-met"><span class="k">Target</span><span class="v">40K+ schools (JP)</span></li>
+          <li class="uc-met"><span class="k">Model</span><span class="v">Scalable via TtT</span></li>
+          <li class="uc-met"><span class="k">Side Effect</span><span class="v">Creator funnel</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     TRACTION
+     ═══════════════════════════ -->
+<section class="traction">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="label">TRACTION</div>
+      <div class="stitle">What's been built.</div>
+    </div>
+    <div class="tract-grid">
+      <div class="tract-card reveal"><div class="tract-num">9,774</div><div class="tract-label">Lines of production code</div></div>
+      <div class="tract-card reveal d1"><div class="tract-num">9</div><div class="tract-label">Integrated modules</div></div>
+      <div class="tract-card reveal d2"><div class="tract-num">3</div><div class="tract-label">Market segments validated</div></div>
+      <div class="tract-card reveal d3"><div class="tract-num">5</div><div class="tract-label">Landing pages live</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     RISKS
+     ═══════════════════════════ -->
+<section class="risks">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">RISK FACTORS</div>
+      <div class="stitle">Risks and mitigations.</div>
+    </div>
+    <div class="risk-grid">
+      <div class="risk-card reveal">
+        <div class="risk-t">Local LLM Quality Ceiling</div>
+        <div class="risk-d">Local models (14B parameters) are weaker than GPT-4 / Claude.</div>
+        <div class="risk-m">→ Human-in-the-Loop by design. Auto quality control raises the floor. OSS models improve monthly (Qwen, Llama, Gemma).</div>
+      </div>
+      <div class="risk-card reveal d1">
+        <div class="risk-t">Solo Founder / Key Person Risk</div>
+        <div class="risk-d">Currently a one-person development operation.</div>
+        <div class="risk-m">→ Codebase is modular (9 separated modules), fully documented. Team expansion is immediate upon funding.</div>
+      </div>
+      <div class="risk-card reveal">
+        <div class="risk-t">Big Tech Entry</div>
+        <div class="risk-d">OpenAI or Google could build a competing tool.</div>
+        <div class="risk-m">→ Big Tech is structurally locked into cloud APIs (that's their business model). "On-premise + IP-safe" is the one thing they can't offer without cannibalizing themselves.</div>
+      </div>
+      <div class="risk-card reveal d1">
+        <div class="risk-t">AI Regulation</div>
+        <div class="risk-d">Emerging copyright and disclosure rules for AI-generated content.</div>
+        <div class="risk-m">→ On-premise + OSS models + Human-in-the-Loop = most regulation-friendly architecture. "Human approves every output" is the safest legal posture.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     7. CTA
+     ═══════════════════════════ -->
+<section class="cta" id="contact">
+  <div class="reveal">
+    <div class="label">DEAL STRUCTURE</div>
+    <h2>Acquisition, investment, or partnership — let's talk.</h2>
+    <p class="sub">We're open to multiple deal structures. Start with a 30-minute call to see the product in action.</p>
+  </div>
+  <div class="deal-opts reveal d1">
+    <div class="deal-opt">
+      <div class="deal-opt-t">Full Acquisition</div>
+      <div class="deal-opt-d">Complete technology stack (9,800 lines), documentation, customer pipeline, brand, and domain — turnkey transfer.</div>
+    </div>
+    <div class="deal-opt">
+      <div class="deal-opt-t">Investment / Funding</div>
+      <div class="deal-opt-d">Seed to Series A. Capital for engineering team, go-to-market acceleration, and multi-language expansion.</div>
+    </div>
+    <div class="deal-opt">
+      <div class="deal-opt-t">Strategic Partnership</div>
+      <div class="deal-opt-d">Co-development with publishers, game studios, or content platforms. Pipeline customization for existing IPs.</div>
+    </div>
+  </div>
+  <div class="cta-btns reveal d2">
+    <a href="https://forms.gle/vxeFuYFUSnSQSH4P9" target="_blank" rel="noopener" class="btn btn-white">Schedule a Call →</a>
+    <a href="/cdn-cgi/l/email-protection#5c3d383135321c2b37362c72323928" class="btn btn-wg">✉ <span class="__cf_email__" data-cfemail="18797c757176586f73726836767d6c">[email&#160;protected]</span></a>
+  </div>
+  <div class="cta-mail reveal d3">
+    <p>Direct: <a href="/cdn-cgi/l/email-protection#3051545d595e70475b5a401e5e5544"><span class="__cf_email__" data-cfemail="adccc9c0c4c3eddac6c7dd83c3c8d9">[email&#160;protected]</span></a></p>
+  </div>
+  <div class="disclaimer reveal d4">
+    This page does not constitute a solicitation of investment. Market data is based on publicly available estimates and does not guarantee future performance. All investment decisions should be made at your own discretion. Confidential — for qualified investors, acquirers, and strategic partners only.
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 NovelForge — Confidential. For qualified parties only.</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+const nav=document.ge
