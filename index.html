@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovelForge — Investor Relations</title>
+<meta name="description" content="完全ローカルAI小説生成パイプライン。IP防衛×キャラ一貫性×垂直統合。投資・買収のご相談。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#fafaf9;
+  --bg2:#f4f3f0;
+  --bg-dark:#0c0c14;
+  --surface:#fff;
+  --navy:#111827;
+  --navy2:#1f2937;
+  --charcoal:#374151;
+  --gold:#a88a3e;
+  --gold-light:#c9a84c;
+  --gold-pale:rgba(168,138,62,.07);
+  --gold-border:rgba(168,138,62,.18);
+  --green:#166534;
+  --green-pale:rgba(22,101,52,.06);
+  --blue:#1e40af;
+  --blue-pale:rgba(30,64,175,.05);
+  --red:#991b1b;
+  --text:#1a1a1a;
+  --text2:#555;
+  --text3:#999;
+  --border:rgba(0,0,0,.08);
+  --border2:rgba(0,0,0,.04);
+  --display:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.8;overflow-x:hidden;font-weight:400}
+::selection{background:var(--navy);color:#fff}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* ═══ NAV ═══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:12px 40px;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(250,250,249,.88);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border2);transition:all .3s;
+}
+nav.scrolled{background:rgba(250,250,249,.97);box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.nav-logo{display:flex;align-items:baseline;gap:8px;text-decoration:none}
+.nav-logo-name{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--navy);letter-spacing:-.02em}
+.nav-logo-tag{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;
+  color:var(--gold);font-weight:600;padding:2px 8px;border-radius:3px;
+  border:1px solid var(--gold-border);background:var(--gold-pale);
+}
+.nav-r{display:flex;gap:20px;align-items:center}
+.nav-r a{color:var(--text2);text-decoration:none;font-size:.8rem;font-weight:500;transition:color .3s}
+.nav-r a:hover{color:var(--navy)}
+.nav-cta{
+  padding:8px 20px!important;border-radius:4px;font-weight:600!important;
+  background:var(--navy)!important;color:#fff!important;font-size:.78rem!important;
+  letter-spacing:.03em;transition:all .3s!important;
+}
+.nav-cta:hover{background:var(--navy2)!important}
+
+/* ═══ HERO ═══ */
+.hero{
+  padding:160px 40px 120px;max-width:920px;margin:0 auto;
+  position:relative;
+}
+.hero::before{
+  content:'';position:absolute;top:100px;left:-200px;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(168,138,62,.04) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
+  color:var(--gold);font-weight:600;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+  animation:fadeIn .7s ease-out both;
+}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--gold)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.hero h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2.2rem,5vw,3.6rem);
+  line-height:1.2;letter-spacing:-.02em;color:var(--navy);
+  animation:slideUp .8s ease-out .1s both;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-sub{
+  font-size:1.05rem;color:var(--text2);max-width:620px;
+  margin-top:20px;line-height:2;font-weight:300;
+  animation:slideUp .8s ease-out .25s both;
+}
+
+.hero-thesis{
+  margin-top:32px;padding:24px 28px;border-radius:8px;
+  background:var(--gold-pale);border:1px solid var(--gold-border);
+  animation:slideUp .8s ease-out .4s both;
+}
+.hero-thesis-label{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;
+  color:var(--gold);font-weight:600;margin-bottom:8px;
+}
+.hero-thesis p{
+  font-family:var(--display);font-size:1.15rem;line-height:1.7;
+  color:var(--navy);font-weight:600;font-style:italic;
+}
+
+.hero-ctas{
+  display:flex;gap:12px;margin-top:32px;
+  animation:slideUp .8s ease-out .55s both;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;border-radius:4px;
+  font-family:var(--sans);font-size:.86rem;font-weight:600;
+  text-decoration:none;cursor:pointer;border:none;transition:all .3s;
+  letter-spacing:.02em;
+}
+.btn-dark{background:var(--navy);color:#fff;box-shadow:0 1px 8px rgba(0,0,0,.1)}
+.btn-dark:hover{background:var(--navy2);transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.btn-outline{background:transparent;color:var(--navy);border:1px solid var(--border)}
+.btn-outline:hover{background:var(--bg2);border-color:rgba(0,0,0,.12)}
+
+/* ═══ SECTIONS ═══ */
+section{padding:80px 40px}
+.container{max-width:920px;margin:0 auto}
+.label{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;
+  color:var(--gold);font-weight:600;margin-bottom:8px;
+}
+.stitle{font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,2.8vw,2rem);line-height:1.3;color:var(--navy);margin-bottom:12px}
+.sdesc{color:var(--text2);max-width:560px;font-size:.94rem;margin-bottom:40px;line-height:1.9;font-weight:300}
+
+/* ═══ KEY METRICS ═══ */
+.metrics{background:var(--navy);color:#fff;padding:80px 40px}
+.metrics .label{color:var(--gold-light)}
+.metrics .stitle{color:#fff}
+.metrics .sdesc{color:rgba(255,255,255,.55)}
+.met-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.met-card{
+  padding:28px 22px;border-radius:8px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+  text-align:center;
+}
+.met-num{font-family:var(--mono);font-weight:600;font-size:clamp(1.4rem,2.5vw,1.9rem);color:var(--gold-light);margin-bottom:4px}
+.met-label{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.4}
+.met-sub{font-size:.68rem;color:rgba(255,255,255,.3);margin-top:2px}
+
+/* ═══ MARKET ═══ */
+.market{border-top:1px solid var(--border)}
+.mkt-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.mkt-left{display:flex;flex-direction:column;gap:14px}
+.mkt-point{
+  padding:18px 20px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+  display:flex;gap:14px;align-items:flex-start;
+}
+.mkt-point .num{
+  font-family:var(--mono);font-size:.68rem;color:var(--gold);
+  font-weight:600;flex-shrink:0;margin-top:3px;letter-spacing:.05em;
+}
+.mkt-point .t{font-weight:600;font-size:.9rem;color:var(--navy);margin-bottom:2px}
+.mkt-point .d{font-size:.82rem;color:var(--text2);line-height:1.7}
+
+.mkt-right{
+  padding:28px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+  box-shadow:0 2px 8px rgba(0,0,0,.03);
+}
+.mkt-right h4{font-family:var(--mono);font-size:.68rem;letter-spacing:.15em;color:var(--gold);font-weight:600;margin-bottom:18px}
+.comp-row{
+  display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;
+  padding:10px 0;border-bottom:1px solid var(--border2);font-size:.82rem;
+  align-items:center;
+}
+.comp-row:last-child{border:none}
+.comp-row.head{font-weight:600;color:var(--navy);font-size:.72rem;letter-spacing:.04em;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.comp-row .name{font-weight:500;color:var(--navy)}
+.comp-row .val{text-align:right;font-family:var(--mono);font-weight:500;font-size:.82rem}
+.comp-row .val.gold{color:var(--gold)}
+
+/* ═══ MOAT ═══ */
+.moat{background:var(--bg2);border-top:1px solid var(--border)}
+.moat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.moat-card{
+  padding:28px 24px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.moat-num{font-family:var(--mono);font-size:.65rem;color:var(--gold);letter-spacing:.1em;font-weight:600;margin-bottom:10px}
+.moat-title{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--navy);margin-bottom:6px}
+.moat-desc{font-size:.84rem;color:var(--text2);line-height:1.8}
+
+/* ═══ TECH ASSETS ═══ */
+.assets{border-top:1px solid var(--border)}
+.asset-table{width:100%;border-collapse:collapse;margin-top:32px}
+.asset-table th,.asset-table td{
+  padding:12px 16px;text-align:left;border-bottom:1px solid var(--border2);
+  font-size:.84rem;
+}
+.asset-table th{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;
+  color:var(--text3);font-weight:600;padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.asset-table td:first-child{font-weight:600;color:var(--navy);white-space:nowrap}
+.asset-table td:nth-child(2){font-family:var(--mono);font-size:.82rem;color:var(--gold)}
+.asset-table td:nth-child(3){color:var(--text2)}
+
+/* ═══ REVENUE MODEL ═══ */
+.revenue{background:var(--bg2);border-top:1px solid var(--border)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.rev-card{
+  padding:28px 24px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.rev-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.rev-card:nth-child(1)::before{background:var(--gold)}
+.rev-card:nth-child(2)::before{background:var(--blue)}
+.rev-card:nth-child(3)::before{background:var(--green)}
+.rev-phase{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;color:var(--text3);font-weight:600;margin-bottom:4px}
+.rev-title{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--navy);margin-bottom:6px}
+.rev-target{font-size:.82rem;color:var(--text2);margin-bottom:12px;line-height:1.6}
+.rev-metrics{list-style:none;display:flex;flex-direction:column;gap:6px}
+.rev-met{display:flex;justify-content:space-between;font-size:.8rem;padding:6px 0;border-bottom:1px solid var(--border2)}
+.rev-met:last-child{border:none}
+.rev-met .k{color:var(--text2)}
+.rev-met .v{font-family:var(--mono);font-weight:600;color:var(--navy)}
+
+/* ═══ RISK ═══ */
+.risks{border-top:1px solid var(--border)}
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.risk-card{
+  padding:22px 22px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+  display:flex;gap:14px;align-items:flex-start;
+}
+.risk-icon{
+  width:32px;height:32px;border-radius:6px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;background:rgba(153,27,27,.06);
+}
+.risk-title{font-weight:600;font-size:.88rem;color:var(--navy);margin-bottom:3px}
+.risk-desc{font-size:.8rem;color:var(--text2);line-height:1.7}
+.risk-mitigate{font-size:.78rem;color:var(--green);margin-top:4px;font-weight:500}
+
+/* ═══ DEAL ═══ */
+.deal{background:var(--navy);color:#fff;padding:100px 40px;text-align:center}
+.deal .label{color:var(--gold-light)}
+.deal h2{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.35;margin-bottom:14px}
+.deal .sub{color:rgba(255,255,255,.55);font-size:.95rem;max-width:500px;margin:0 auto 40px;line-height:1.9;font-weight:300}
+.deal-options{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:800px;margin:0 auto 44px}
+.deal-opt{
+  padding:24px 20px;border-radius:8px;text-align:left;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+}
+.deal-opt-title{font-weight:600;font-size:.9rem;margin-bottom:6px}
+.deal-opt-desc{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.7}
+
+.deal-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.btn-white{background:#fff;color:var(--navy);box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.btn-white:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.btn-wghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.25)}
+.btn-wghost:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.4)}
+
+.deal-mail{font-size:.84rem;color:rgba(255,255,255,.4)}
+.deal-mail a{color:rgba(255,255,255,.7);text-decoration:none;font-weight:500}
+.deal-mail a:hover{color:#fff;text-decoration:underline}
+
+.deal-disclaimer{
+  margin-top:40px;max-width:600px;margin-left:auto;margin-right:auto;
+  padding-top:24px;border-top:1px solid rgba(255,255,255,.06);
+  font-size:.7rem;color:rgba(255,255,255,.25);line-height:1.7;
+}
+
+footer{padding:24px 40px;text-align:center;font-size:.7rem;color:var(--text3);border-top:1px solid var(--border)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .met-grid{grid-template-columns:1fr 1fr}
+  .mkt-grid{grid-template-columns:1fr}
+  .moat-grid,.rev-grid{grid-template-columns:1fr}
+  .risk-grid{grid-template-columns:1fr}
+  .deal-options{grid-template-columns:1fr}
+  .asset-table{font-size:.78rem}
+  .hero,.container{padding-left:24px;padding-right:24px}
+  nav{padding:10px 20px}
+}
+@media(max-width:600px){
+  .met-grid{grid-template-columns:1fr}
+  .nav-r a:not(.nav-cta){display:none}
+  .hero-ctas{flex-direction:column}
+  .hero-ctas .btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-name">NovelForge</span>
+    <span class="nav-logo-tag">INVESTOR RELATIONS</span>
+  </a>
+  <div class="nav-r">
+    <a href="#metrics">指標</a>
+    <a href="#moat">競合優位</a>
+    <a href="#revenue">収益モデル</a>
+    <a href="https://forms.gle/vxeFuYFUSnSQSH4P9" target="_blank" rel="noopener" class="nav-cta">面談を予約</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-eyebrow">INVESTMENT OPPORTUNITY</div>
+  <h1>AI×コンテンツの<br>垂直統合パイプライン。</h1>
+  <p class="hero-sub">
+    テキスト生成・画像生成・品質制御・公開を一気通貫で自動化する、完全ローカル実行のAI小説生成システム。<br>
+    「IP防衛」と「コンテンツ量産」を同時に実現する唯一のアーキテクチャ。
+  </p>
+  <div class="hero-thesis">
+    <div class="hero-thesis-label">INVESTMENT THESIS</div>
+    <p>AI生成コンテンツ市場は$70M ARR企業を生むフェーズに入った。しかし全プレイヤーが「外部API依存」「キャラ一貫性の欠如」という構造的欠陥を抱えている。NovelForgeは「完全ローカル」×「キャラ一貫性エンジン」×「垂直統合パイプライン」で、この市場の技術的ボトルネックを解消する唯一のポジションにいる。</p>
+  </div>
+  <div class="hero-ctas">
+    <a href="https://forms.gle/vxeFuYFUSnSQSH4P9" target="_blank" rel="noopener" class="btn btn-dark">面談を予約する →</a>
+    <a href="#metrics" class="btn btn-outline">詳細を見る</a>
+  </div>
+</section>
+
+<!-- ═══ KEY METRICS ═══ -->
+<section class="metrics" id="metrics">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">KEY METRICS</div>
+      <div class="stitle">プロダクトの現在地</div>
+    </div>
+    <div class="met-grid">
+      <div class="met-card reveal">
+        <div class="met-num">9,774</div>
+        <div class="met-label">Lines of Code</div>
+        <div class="met-sub">Python / 9モジュール</div>
+      </div>
+      <div class="met-card reveal d1">
+        <div class="met-num">3</div>
+        <div class="met-label">市場セグメント</div>
+        <div class="met-sub">Enterprise / Creator / Education</div>
+      </div>
+      <div class="met-card reveal d2">
+        <div class="met-num">¥0</div>
+        <div class="met-label">外部API依存</div>
+        <div class="met-sub">Ollama + SD / 完全ローカル</div>
+      </div>
+      <div class="met-card reveal d3">
+        <div class="met-num">50本/月</div>
+        <div class="met-label">想定生成キャパシティ</div>
+        <div class="met-sub">GPU 1台 (RTX 4090) での運用</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MARKET OPPORTUNITY ═══ -->
+<section class="market" id="market">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">MARKET OPPORTUNITY</div>
+      <div class="stitle">市場の証拠</div>
+      <div class="sdesc">AI生成コンテンツ市場は「実証済み」のフェーズに入っています。</div>
+    </div>
+    <div class="mkt-grid">
+      <div class="mkt-left">
+        <div class="mkt-point reveal">
+          <span class="num">01</span>
+          <div><div class="t">HOLYWATER — ARR $70M</div><div class="d">AIでインタラクティブフィクションを量産。著者150人超と契約。しかし「外部API依存」「著者のIP無断学習」で批判が噴出。</div></div>
+        </div>
+        <div class="mkt-point reveal d1">
+          <span class="num">02</span>
+          <div><div class="t">Inkitt — 評価額 $300M</div><div class="d">VC $37M調達。AIでコンテンツの続編を自動生成。しかし「著者の知らないところでAIが書く」構造に倫理的批判。</div></div>
+        </div>
+        <div class="mkt-point reveal d2">
+          <span class="num">03</span>
+          <div><div class="t">Holoworld AI — 時価総額 $90M+</div><div class="d">AIネイティブコンテンツをトークン化。1日の取引高$1.41億。「IP一貫性の保証」が次の差別化要因に。</div></div>
+        </div>
+        <div class="mkt-point reveal d3">
+          <span class="num">04</span>
+          <div><div class="t">出版社のAI投資が加速</div><div class="d">KADOKAWA、講談社、集英社がAI活用を模索。しかし「自社IPを外部APIに送信したくない」というジレンマに直面。</div></div>
+        </div>
+      </div>
+      <div class="mkt-right reveal d2">
+        <h4>COMPETITIVE LANDSCAPE</h4>
+        <div class="comp-row head"><span>企業名</span><span>規模</span><span>弱点</span></div>
+        <div class="comp-row"><span class="name">HOLYWATER</span><span class="val">$70M ARR</span><span style="font-size:.78rem;color:var(--text2)">IP流出リスク</span></div>
+        <div class="comp-row"><span class="name">Inkitt</span><span class="val">$300M 評価額</span><span style="font-size:.78rem;color:var(--text2)">著者との信頼問題</span></div>
+        <div class="comp-row"><span class="name">NovelAI</span><span class="val">サブスク</span><span style="font-size:.78rem;color:var(--text2)">長編整合性なし</span></div>
+        <div class="comp-row"><span class="name">Sudowrite</span><span class="val">$3M ARR推定</span><span style="font-size:.78rem;color:var(--text2)">外部API依存</span></div>
+        <div class="comp-row" style="background:var(--gold-pale);border-radius:4px;margin-top:4px;border:1px solid var(--gold-border)">
+          <span class="name" style="color:var(--gold)">NovelForge</span>
+          <span class="val gold">Pre-revenue</span>
+          <span style="font-size:.78rem;color:var(--gold);font-weight:500">唯一のローカル垂直統合</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MOAT ═══ -->
+<section class="moat" id="moat">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">DEFENSIBLE MOAT</div>
+      <div class="stitle">3層の防御壁</div>
+      <div class="sdesc">後発が簡単に追いつけない、構造的な参入障壁。</div>
+    </div>
+    <div class="moat-grid">
+      <div class="moat-card reveal">
+        <div class="moat-num">MOAT 01</div>
+        <div class="moat-title">完全ローカル・アーキテクチャ</div>
+        <div class="moat-desc">外部APIゼロ。IP設定が社外に出ない。これは企業向けの「必須条件」であり、SaaS型の競合には構造的に実現できないポイント。クラウド型サービスが後からローカル化するにはアーキテクチャの全面再設計が必要。</div>
+      </div>
+      <div class="moat-card reveal d1">
+        <div class="moat-num">MOAT 02</div>
+        <div class="moat-title">キャラクター一貫性エンジン</div>
+        <div class="moat-desc">YAML定義のSDプロンプト自動適用＋年齢/属性の推論タグ補完。挿絵のキャラ外見が全巻で一致する仕組みは、単なるプロンプトエンジニアリングではなく、パイプライン全体の設計が必要。9,800行のコードベースが参入障壁。</div>
+      </div>
+      <div class="moat-card reveal d2">
+        <div class="moat-num">MOAT 03</div>
+        <div class="moat-title">垂直統合パイプライン</div>
+        <div class="moat-desc">テキスト生成→品質制御→画像生成→HTMLパッケージング→Git公開の全工程を単一システムで制御。部分的なAIツール（テキストだけ、画像だけ）とは根本的に異なる統合価値を提供。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TECH ASSETS ═══ -->
+<section class="assets">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">TECHNICAL ASSETS</div>
+      <div class="stitle">取得可能な技術資産</div>
+    </div>
+    <table class="asset-table reveal">
+      <thead>
+        <tr><th>モジュール</th><th>規模</th><th>機能</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>novel_pipeline.py</td><td>1,951行</td><td>メインエンジン。YAML→LLM→SD→HTML→Git公開</td></tr>
+        <tr><td>longform_generator.py</td><td>894行</td><td>幕→章→話の長編構造。記憶管理統合</td></tr>
+        <tr><td>web_ui.py</td><td>2,090行</td><td>Flask製ブラウザUI。プロジェクト管理・続編生成</td></tr>
+        <tr><td>prompt_enhancer.py</td><td>522行</td><td>シーン分析→英訳→SDプロンプト最適化。年齢タグ自動補完</td></tr>
+        <tr><td>story_switcher.py</td><td>1,051行</td><td>CLI管理。Gitタグによるバージョン管理</td></tr>
+        <tr><td>sequel_builder.py</td><td>1,190行</td><td>前作読込→要約→続編YAML自動生成</td></tr>
+        <tr><td>memory_manager.py</td><td>411行</td><td>伏線・キャラ状態のJSON追跡</td></tr>
+        <tr><td>text_quality.py</td><td>350行</td><td>ループ検出・言語混在除去・自動リトライ</td></tr>
+        <tr><td>git_manager.py</td><td>451行</td><td>増分コミット・タグ管理・Pages検証</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ REVENUE MODEL ═══ -->
+<section class="revenue" id="revenue">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">REVENUE MODEL</div>
+      <div class="stitle">3層の収益構造</div>
+      <div class="sdesc">高単価B2Bを軸に、サブスク型と教育型で裾野を広げる設計。</div>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card reveal">
+        <div class="rev-phase">LAYER 01 — HIGH VALUE</div>
+        <div class="rev-title">エンタープライズ導入</div>
+        <div class="rev-target">出版社・ゲーム会社・映像制作会社向けのオンプレ導入＋カスタマイズ。</div>
+        <ul class="rev-metrics">
+          <li class="rev-met"><span class="k">初期構築</span><span class="v">¥5M〜10M</span></li>
+          <li class="rev-met"><span class="k">月額保守</span><span class="v">¥500K〜1M</span></li>
+          <li class="rev-met"><span class="k">対象企業数</span><span class="v">日本だけで50社+</span></li>
+        </ul>
+      </div>
+      <div class="rev-card reveal d1">
+        <div class="rev-phase">LAYER 02 — RECURRING</div>
+        <div class="rev-title">クリエイター向けSaaS</div>
+        <div class="rev-target">個人作家・同人サークル向けの月額サブスクリプション。</div>
+        <ul class="rev-metrics">
+          <li class="rev-met"><span class="k">月額</span><span class="v">¥9,800</span></li>
+          <li class="rev-met"><span class="k">TAM (日本)</span><span class="v">10万人+</span></li>
+          <li class="rev-met"><span class="k">目標MRR (12M)</span><span class="v">¥1M</span></li>
+        </ul>
+      </div>
+      <div class="rev-card reveal d2">
+        <div class="rev-phase">LAYER 03 — EXPANSION</div>
+        <div class="rev-title">教育・研修プログラム</div>
+        <div class="rev-target">学校・自治体・企業向けのAI×創作ワークショップパッケージ。</div>
+        <ul class="rev-metrics">
+          <li class="rev-met"><span class="k">1回あたり</span><span class="v">¥100K〜500K</span></li>
+          <li class="rev-met"><span class="k">対象</span><span class="v">全国4万校+</span></li>
+          <li class="rev-met"><span class="k">講師研修モデル</span><span class="v">スケーラブル</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RISKS ═══ -->
+<section class="risks">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">RISK FACTORS</div>
+      <div class="stitle">リスクと緩和策</div>
+    </div>
+    <div class="risk-grid">
+      <div class="risk-card reveal">
+        <div class="risk-icon">⚠</div>
+        <div>
+          <div class="risk-title">ローカルLLMの品質上限</div>
+          <div class="risk-desc">GPT-4/Claudeと比較してローカルモデルの生成品質には差がある。</div>
+          <div class="risk-mitigate">→ Human-in-the-Loop前提の設計。品質自動制御で底上げ。OSSモデルの進化が急速（毎月改善）。</div>
+        </div>
+      </div>
+      <div class="risk-card reveal d1">
+        <div class="risk-icon">⚠</div>
+        <div>
+          <div class="risk-title">個人開発フェーズ</div>
+          <div class="risk-desc">現状は1人で開発・運用。Key Person Risk。</div>
+          <div class="risk-mitigate">→ コードは構造化済み（9モジュール分離）。ドキュメント整備済み。チーム拡張は即可能。</div>
+        </div>
+      </div>
+      <div class="risk-card reveal">
+        <div class="risk-icon">⚠</div>
+        <div>
+          <div class="risk-title">大手参入リスク</div>
+          <div class="risk-desc">OpenAI、Google等が類似ツールを提供する可能性。</div>
+          <div class="risk-mitigate">→ 大手は「クラウドAPI型」に構造的にロックイン。「完全ローカル＋IP防衛」は大手が提供しにくい領域。</div>
+        </div>
+      </div>
+      <div class="risk-card reveal d1">
+        <div class="risk-icon">⚠</div>
+        <div>
+          <div class="risk-title">AI規制リスク</div>
+          <div class="risk-desc">AI生成コンテンツの著作権・表示義務に関する法規制の動向。</div>
+          <div class="risk-mitigate">→ ローカル実行＋OSSモデル＋Human-in-the-Loopの構造は規制適合しやすい。「人間が最終承認」のフロー。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEAL ═══ -->
+<section class="deal" id="contact">
+  <div class="reveal">
+    <div class="label">DEAL STRUCTURE</div>
+    <h2>投資・買収のご相談</h2>
+    <p class="sub">以下の形態でのご相談に対応しています。<br>まずはオンライン面談でプロダクトデモをお見せします。</p>
+  </div>
+  <div class="deal-options reveal d1">
+    <div class="deal-opt">
+      <div class="deal-opt-title">事業買収</div>
+      <div class="deal-opt-desc">技術資産（9,800行のコードベース＋ドキュメント一式）、顧客パイプライン、ブランドの一括取得。</div>
+    </div>
+    <div class="deal-opt">
+      <div class="deal-opt-title">資本提携 / 出資</div>
+      <div class="deal-opt-desc">エンジニア採用・マーケティング強化のためのシード〜シリーズA相当の資金調達。</div>
+    </div>
+    <div class="deal-opt">
+      <div class="deal-opt-title">事業提携</div>
+      <div class="deal-opt-desc">出版社・コンテンツ企業との共同事業。既存IPへのパイプライン適用パートナーシップ。</div>
+    </div>
+  </div>
+  <div class="deal-ctas reveal d2">
+    <a href="https://forms.gle/vxeFuYFUSnSQSH4P9" target="_blank" rel="noopener" class="btn btn-white">面談を予約する →</a>
+    <a href="mailto:admin@wkjp.net" class="btn btn-wghost">✉ admin@wkjp.net</a>
+  </div>
+  <div class="deal-mail reveal d3">
+    <p>メール: <a href="mailto:admin@wkjp.net">admin@wkjp.net</a></p>
+  </div>
+  <div class="deal-disclaimer reveal d4">
+    本ページは投資勧誘を目的とするものではありません。記載の市場データは公開情報に基づく推定値であり、将来の業績を保証するものではありません。投資判断はご自身の責任において行ってください。
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 NovelForge — Confidential. For qualified investors only.</p>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}});
+});
+</script>
+</body>
+</html>
